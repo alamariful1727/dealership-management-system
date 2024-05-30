@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: node-backend
+    build: .
+    ports:
+      - 4000:4000
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: postgres:15-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=user123
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=database
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
