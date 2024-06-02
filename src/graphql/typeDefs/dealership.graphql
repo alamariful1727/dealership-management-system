@@ -9,6 +9,6 @@ type User {
 }
 
 type Query {
-	getDealerships: [User]
-	getDealership(id: Int!): User
+	getAllDealerships: [User]
+	getSingleDealership(id: Int!): User
 }

@@ -1,3 +1,4 @@
+import format from "pg-format";
 import Database from "@src/database";
 import log from "@src/utils/logger";
 
@@ -34,8 +35,7 @@ export const getDealership = async (id: IDealership["id"]) => {
 
 	try {
 		const result = await client.query(
-			"select * from dealerships where id = $1",
-			[id],
+			format("select * from dealerships where id = %L", id),
 		);
 
 		return result.rows[0];

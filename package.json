@@ -42,6 +42,7 @@
 	},
 	"dependencies": {
 		"@apollo/server": "^4.10.4",
+		"@types/pg-format": "^1.0.5",
 		"config": "^3.3.8",
 		"cors": "^2.8.5",
 		"dayjs": "^1.11.6",
@@ -54,6 +55,7 @@
 		"mongoose": "^6.7.2",
 		"morgan": "^1.10.0",
 		"pg": "^8.11.5",
+		"pg-format": "^1.0.4",
 		"pino": "^8.7.0",
 		"postgres-migrations": "^5.3.0",
 		"zod": "^3.19.1"

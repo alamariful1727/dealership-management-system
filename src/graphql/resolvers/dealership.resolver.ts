@@ -6,10 +6,10 @@ import {
 
 const dealershipResolver = {
 	Query: {
-		async getDealerships() {
+		async getAllDealerships() {
 			return await getDealerships();
 		},
-		async getDealership(_: unknown, args: Pick<IDealership, "id">) {
+		async getSingleDealership(_: unknown, args: Pick<IDealership, "id">) {
 			return await getDealership(args.id);
 		},
 	},
