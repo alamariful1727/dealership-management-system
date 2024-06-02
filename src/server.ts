@@ -1,18 +1,68 @@
-import express, { Request, Response, NextFunction, json } from "express";
+import express, {
+	Request,
+	Response,
+	NextFunction,
+	json,
+	Express,
+} from "express";
+import config from "config";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import config from "config";
+import http from "http";
+import { ApolloServer } from "@apollo/server";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { expressMiddleware } from "@apollo/server/express4";
+import { gql } from "graphql-tag";
+import { readFileSync } from "fs";
 import routes from "./route";
 import log from "./utils/logger";
+import resolvers from "./resolvers";
 
-const createServer = () => {
+const typeDefs = gql(
+	readFileSync("src/schema.graphql", {
+		encoding: "utf-8",
+	}),
+);
+
+const startServer = async (): Promise<Express> => {
 	const app = express();
 
-	app.use(json());
+	const httpServer = http.createServer(app);
+
+	const server = new ApolloServer({
+		typeDefs,
+		resolvers,
+		plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+	});
+
+	await server.start();
+
 	app.use(cors());
-	app.use(helmet());
+	app.use(json());
+	app.use(
+		helmet({
+			crossOriginEmbedderPolicy: false,
+			contentSecurityPolicy: {
+				directives: {
+					imgSrc: [
+						"'self'",
+						"data:",
+						"apollo-server-landing-page.cdn.apollographql.com",
+					],
+					scriptSrc: ["'self'", "https: 'unsafe-inline'"],
+					manifestSrc: [
+						"'self'",
+						"apollo-server-landing-page.cdn.apollographql.com",
+					],
+					frameSrc: ["'self'", "sandbox.embed.apollographql.com"],
+				},
+			},
+		}),
+	);
 	app.use(morgan(config.get<string>("env") == "production" ? "prod" : "dev"));
+
+	app.use("/graphql", expressMiddleware(server));
 
 	app.get("/", (_req, res) => {
 		return res.send("Hello, visitor");
@@ -46,4 +96,4 @@ const createServer = () => {
 	return app;
 };
 
-export default createServer;
+export default startServer;
