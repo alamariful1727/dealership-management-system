@@ -13,17 +13,9 @@ import http from "http";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@apollo/server/express4";
-import { gql } from "graphql-tag";
-import { readFileSync } from "fs";
 import routes from "./route";
 import log from "./utils/logger";
-import resolvers from "./resolvers";
-
-const typeDefs = gql(
-	readFileSync("src/schema.graphql", {
-		encoding: "utf-8",
-	}),
-);
+import { resolvers, typeDefs } from "./graphql";
 
 const startServer = async (): Promise<Express> => {
 	const app = express();

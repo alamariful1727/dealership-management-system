@@ -7,12 +7,11 @@ import startServer from "@src/server";
 
 startServer().then((app) => {
 	const PORT = config.get<number>("port");
-	const db = new Database();
 
 	app.listen(PORT, () => {
 		log.info(`Server is listening at http://localhost:${PORT}`);
 		log.info(`GraphQL is listening at http://localhost:${PORT}/graphql`);
 
-		db.runMigrations();
+		Database.runMigrations();
 	});
 });

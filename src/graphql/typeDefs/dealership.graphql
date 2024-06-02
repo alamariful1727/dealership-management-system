@@ -1,0 +1,14 @@
+type User {
+	id: Int!
+	name: String!
+	address: String!
+	city: String!
+	province: String!
+	postal_code: String!
+	parent_id: Int
+}
+
+type Query {
+	getAllDealerships: [User]
+	getSingleDealership(id: Int!): User
+}
