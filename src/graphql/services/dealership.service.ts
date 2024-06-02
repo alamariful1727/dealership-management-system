@@ -13,36 +13,25 @@ export interface IDealership {
 }
 
 export const getDealerships = async () => {
-	const pool = Database.getInstance();
-	const client = await pool.connect();
-
 	try {
-		const result = await client.query("select * from dealerships");
-		log.info(result.rows);
-
-		return result.rows;
+		return await Database.executeQuery<IDealership>(
+			"select * from dealerships",
+		);
 	} catch (err) {
-		log.error(err);
+		log.error(err, "Error fetching dealership");
 		return [];
-	} finally {
-		client.release();
 	}
 };
 
 export const getDealership = async (id: IDealership["id"]) => {
-	const pool = Database.getInstance();
-	const client = await pool.connect();
-
 	try {
-		const result = await client.query(
-			format("select * from dealerships where id = %L", id),
+		return (
+			(await Database.executeQuery(
+				format("select * from dealerships where id = %L", id),
+			)) || null
 		);
-
-		return result.rows[0];
 	} catch (err) {
-		log.error(err);
-		return {};
-	} finally {
-		client.release();
+		log.error(err, "Error fetching dealership");
+		return null;
 	}
 };

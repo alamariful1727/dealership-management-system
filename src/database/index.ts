@@ -38,6 +38,21 @@ class Database {
 			client.release();
 		}
 	};
+
+	public static executeQuery = async <T>(query: string): Promise<T[]> => {
+		const pool = Database.getInstance();
+		const client = await pool.connect();
+
+		try {
+			const result = await client.query(query);
+			return result.rows;
+		} catch (err) {
+			log.error(err, "Error executing query");
+			throw err;
+		} finally {
+			client.release();
+		}
+	};
 }
 
 export default Database;
