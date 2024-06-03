@@ -12,6 +12,12 @@ export interface IDealership {
 	parent_id: number;
 }
 
+export type TDealershipInput = Omit<IDealership, "id">;
+
+export interface CreateDealershipArgs {
+	dealership: TDealershipInput;
+}
+
 export const getDealerships = async () => {
 	try {
 		return await Database.executeQuery<IDealership>(
@@ -25,13 +31,39 @@ export const getDealerships = async () => {
 
 export const getDealership = async (id: IDealership["id"]) => {
 	try {
-		return (
-			(await Database.executeQuery(
-				format("select * from dealerships where id = %L", id),
-			)) || null
+		const result = await Database.executeQuery<IDealership>(
+			format("select * from dealerships where id = %s", id),
 		);
+		return result[0] || null;
 	} catch (err) {
 		log.error(err, "Error fetching dealership");
+		return null;
+	}
+};
+
+export const createDealership = async ({
+	name,
+	address,
+	city,
+	province,
+	postal_code,
+	parent_id,
+}: TDealershipInput) => {
+	try {
+		const result = await Database.executeQuery<IDealership>(
+			format(
+				"INSERT INTO dealerships (name, address, city, province, postal_code, parent_id) VALUES (%L, %L, %L, %L, %L, %L) RETURNING *",
+				name,
+				address,
+				city,
+				province,
+				postal_code,
+				parent_id,
+			),
+		);
+		return result[0] || null;
+	} catch (err) {
+		log.error(err, "Error creating dealership");
 		return null;
 	}
 };

@@ -1,4 +1,4 @@
-type User {
+type Dealership {
 	id: Int!
 	name: String!
 	address: String!
@@ -8,7 +8,20 @@ type User {
 	parent_id: Int
 }
 
+input DealershipInput {
+	name: String!
+	address: String!
+	city: String!
+	province: String!
+	postal_code: String!
+	parent_id: Int
+}
+
 type Query {
-	getAllDealerships: [User]
-	getSingleDealership(id: Int!): User
+	getAllDealerships: [Dealership]
+	getSingleDealership(id: Int!): Dealership
+}
+
+type Mutation {
+	createDealership(dealership: DealershipInput!): Dealership
 }

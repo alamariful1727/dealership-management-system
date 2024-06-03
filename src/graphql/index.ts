@@ -16,4 +16,7 @@ export const resolvers = {
 	Query: {
 		...dealershipResolver.Query,
 	},
+	Mutation: {
+		...dealershipResolver.Mutation,
+	},
 };
