@@ -1,0 +1,18 @@
+type Customer {
+	id: Int!
+	dealership_id: Int!
+	first_name: String!
+	last_name: String!
+	email: String!
+	phone: String!
+}
+
+input CustomerSearchParams {
+	last_name: String!
+	limit: Int
+	offset: Int
+}
+
+type Query {
+	searchCustomers(customerSearch: CustomerSearchParams): [Customer]
+}

@@ -3,6 +3,7 @@ import { gql } from "graphql-tag";
 import path from "path";
 import dealershipResolver from "./resolvers/dealership.resolver";
 import vehicleResolver from "./resolvers/vehicle.resolver";
+import customerResolver from "./resolvers/customer.resolver";
 
 const dealershipTypes = readFileSync(
 	path.join(__dirname, "./typeDefs/dealership.graphql"),
@@ -18,12 +19,22 @@ const vehicleTypes = readFileSync(
 	},
 );
 
-export const typeDefs = gql(`${dealershipTypes} ${vehicleTypes}`);
+const customerTypes = readFileSync(
+	path.join(__dirname, "./typeDefs/customer.graphql"),
+	{
+		encoding: "utf-8",
+	},
+);
+
+export const typeDefs = gql(
+	`${dealershipTypes} ${vehicleTypes} ${customerTypes}`,
+);
 
 export const resolvers = {
 	Query: {
 		...dealershipResolver.Query,
 		...vehicleResolver.Query,
+		...customerResolver.Query,
 	},
 	Mutation: {
 		...dealershipResolver.Mutation,
