@@ -1,0 +1,50 @@
+type Vehicle {
+	id: Int!
+	dealership_id: Int!
+	make: String!
+	model: String!
+	year: Int!
+	price: Float!
+	vin: String!
+}
+
+input VehicleCreateInput {
+	dealership_id: Int!
+	make: String!
+	model: String!
+	year: Int!
+	price: Float!
+	vin: String!
+}
+
+input VehicleUpdateInput {
+	id: Int!
+	dealership_id: Int
+	make: String
+	model: String
+	year: Int
+	price: Float
+	vin: String
+}
+
+input VehicleSearchParams {
+	dealership_id: Int
+	make: String
+	model: String
+	yearMin: Int
+	yearMax: Int
+	priceMin: Float
+	priceMax: Float
+	vin: String
+	limit: Int
+	offset: Int
+}
+
+type Query {
+	searchVehicles(vehicleSearch: VehicleSearchParams): [Vehicle]
+}
+
+type Mutation {
+	createVehicle(vehicle: VehicleCreateInput!): Vehicle
+	updateVehicle(vehicle: VehicleUpdateInput!): Vehicle
+}

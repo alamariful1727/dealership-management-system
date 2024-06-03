@@ -20,7 +20,7 @@ CREATE TABLE vehicles (
     price NUMERIC(10, 2) NOT NULL,
     vin VARCHAR(17) NOT NULL,
     FOREIGN KEY (dealership_id) REFERENCES dealerships(id) ON DELETE CASCADE,
-    UNIQUE (dealership_id, make, model, year, price)
+    UNIQUE (dealership_id, vin)
 );
 
 -- Create Customers Table
@@ -48,14 +48,21 @@ CREATE TABLE sales (
 );
 
 -- Indexes for Vehicles Table
+    -- Make, Model, Year: For vehicle searches. 
 CREATE INDEX idx_vehicles_make_model_year ON vehicles (make, model, year);
+    -- Dealership ID: For inventory management.
 CREATE INDEX idx_vehicles_dealership_id ON vehicles (dealership_id);
 
 -- Indexes for Customers Table
+    -- Last Name: For customer lookups.
 CREATE INDEX idx_customers_last_name ON customers (last_name);
+    -- Dealership ID: For managing customers per dealership.
 CREATE INDEX idx_customers_dealership_id ON customers (dealership_id);
 
 -- Indexes for Sales Table
+    -- Vehicle ID: For vehicle sales history.
 CREATE INDEX idx_sales_vehicle_id ON sales (vehicle_id);
+    -- Customer ID: For customer purchase history.
 CREATE INDEX idx_sales_customer_id ON sales (customer_id);
+    -- Dealership ID: For sales per dealership.
 CREATE INDEX idx_sales_dealership_id ON sales (dealership_id);
