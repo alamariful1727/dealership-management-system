@@ -1,0 +1,22 @@
+type SalesReport {
+	id: Int!
+	make: String!
+	model: String!
+	year: Int!
+	first_name: String!
+	last_name: String!
+	sale_date: String!
+	sale_price: Float!
+}
+
+input SalesReportParams {
+	vehicle_id: Int
+	customer_id: Int
+	dealership_id: Int
+	limit: Int
+	offset: Int
+}
+
+type Query {
+	salesReport(salesReportSearch: SalesReportParams): [SalesReport]
+}
