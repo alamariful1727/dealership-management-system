@@ -1,7 +1,7 @@
 {
-	"name": "node-mongodb-jest",
+	"name": "dealership-management-system",
 	"version": "1.0.0",
-	"description": "Setup jest testing in a nodejs backend project with mongodb database.",
+	"description": "The Dealership Management System (DMS) is a backend system designed to manage operations for automotive dealerships.",
 	"main": "src/index.ts",
 	"author": "Ariful Alam <alamariful1727@gmail.com>",
 	"license": "MIT",
